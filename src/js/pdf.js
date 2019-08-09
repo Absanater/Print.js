@@ -33,6 +33,13 @@ export default {
       createBlobAndPrint(params, printFrame, req.response)
     })
 
+    req.addEventListener('error', () => {
+      params.onError('Failed to get');
+
+      // Since we don't have a pdf document available, we will stop the print job
+      createBlobAndPrint(params, printFrame, null)
+    })
+
     req.open('GET', params.printable, true)
     req.send()
   }
